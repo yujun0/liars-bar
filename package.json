@@ -2,7 +2,7 @@
   "name": "liars-bar",
   "version": "0.0.1",
   "description": "A Quasar Project",
-  "productName": "Quasar App",
+  "productName": "Liar's Bar",
   "author": "Yu Chun Lin <a930387@gmail.com>",
   "private": true,
   "scripts": {

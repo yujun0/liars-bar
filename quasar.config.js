@@ -53,7 +53,7 @@ module.exports = configure(function (/* ctx */) {
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
       publicPath: process.env.NODE_ENV === 'production'
-        ? '/liar-s-bar/'
+        ? '/liars-bar/'
         : '/',
       // analyze: true,
       // env: {},
