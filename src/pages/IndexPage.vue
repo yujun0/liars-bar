@@ -15,12 +15,41 @@
           class="my-card q-ma-md shadow-5"
         >
           <q-card-section class="bg-primary text-white">
-            <div class="text-h5 text-center">歡迎來到騙子酒吧</div>
+            <div class="text-h5 text-center">Welcome to Liar's Bar</div>
           </q-card-section>
-          <q-card-section class="q-pt-lg">
+          <q-card-section class="q-pt-lg" style="max-height: 300px; overflow-y: auto;">
             <p class="text-body1 text-center">
-              準備好開始一場刺激的遊戲了嗎？
+              遊戲規則：
             </p>
+            <ul>
+              <li>牌組：20張牌（6張K、6張Q、6張A、2張Joker）</li>
+              <li>玩家人數：4位</li>
+              <li>每局隨機選擇 K/Q/A 作為目標牌型</li>
+            </ul>
+            <p class="text-body1 text-center">
+              遊戲流程：
+            </p>
+            <ol>
+              <li>玩家輪流出牌，聲明自己出的是目標牌型。</li>
+              <li>下一位玩家可以選擇說 <b>liar</b> 或繼續出牌。</li>
+              <li>直到剩下1名玩家，遊戲結束</li>
+            </ol>
+            <p class="text-body1 text-center">
+              如果說 <b>liar</b>：
+            </p>
+            <ul>
+              <li>檢查前一位玩家的牌。</li>
+              <li>如果該玩家說謊，說謊玩家要進行左輪手槍遊戲。</li>
+              <li>如果該玩家沒說謊，說 <b>liar</b> 的玩家要進行左輪手槍遊戲。</li>
+            </ul>
+            <p class="text-body1 text-center">
+              左輪手槍規則：
+            </p>
+            <ul>
+              <li>手槍有6個膛室，裡面有1枚子彈。</li>
+              <li>每位玩家開始時的命中率為0/6。如果這回合開槍沒射中，下一回合將變為1/6，命中率將會越來越高。</li>
+              <li>被射中的玩家退出當前回合。</li>
+            </ul>
           </q-card-section>
           <q-card-actions vertical align="center" class="q-py-md">
             <q-btn
@@ -214,7 +243,7 @@
         </q-card>
       </transition>
 <!--      <div v-if="isOverlayVisible" class="overlay"></div>-->
-      <div v-if="isOverlayVisible" :class="['overlay', { 'overlay-flash': isFlashing }]" @animationend="handleAnimationEnd"></div>
+      <div v-if="isOverlayVisible" :class="['overlay', { 'overlay-flash': isFlashing }]" @animationend="handleAnimationEnd"/>
 
     </div>
   </q-page>
@@ -473,7 +502,7 @@
 /* 定義背景閃爍效果 */
 @keyframes flashBackground {
   0% { background-color: rgba(255, 0, 0, 0); }
-  50% { background-color: rgba(255, 0, 0, 0.5); }
+  50% { background-color: rgba(255, 0, 0, 1); }
   100% { background-color: rgba(255, 0, 0, 0); }
 }
 
@@ -663,7 +692,7 @@ const shoot = () => {
     return;
   }
   isOverlayVisible.value = true;
-  const isShot = selectedPlayer.shotCount === selectedPlayer.bulletPosition;
+  const isShot = ++selectedPlayer.shotCount === selectedPlayer.bulletPosition;
 
   // 播放心跳聲音
   if (props.soundEnabled) {
@@ -678,7 +707,6 @@ const shoot = () => {
 
   // 播放音效，然後顯示通知
   setTimeout(() => {
-    selectedPlayer.shotCount++;
     selectedPlayer.isSelected = false;
     if (isShot) {
       gunShotSound.play(); // 播放槍聲
@@ -694,10 +722,9 @@ const shoot = () => {
       icon: notifyIcon,
     });
     isOverlayVisible.value = false; // 隱藏 overlay
+    checkGameOver();
   }, 3000); // 根據心跳聲的播放時間設置延遲，這裡假設心跳聲播放完需要 3 秒
 
-
-  checkGameOver();
 };
 
 const triggerScreenShake = () => {
