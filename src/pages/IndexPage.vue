@@ -126,7 +126,7 @@
             <q-btn
               v-if="selectedCard"
               color="primary"
-              label="進入遊戲"
+              label="確認目標牌型"
               class="q-mt-md full-width"
               @click="confirmCardSelection"
             />
@@ -242,7 +242,6 @@
           </q-card-actions>
         </q-card>
       </transition>
-<!--      <div v-if="isOverlayVisible" class="overlay"></div>-->
       <div v-if="isOverlayVisible" :class="['overlay', { 'overlay-flash': isFlashing }]" @animationend="handleAnimationEnd"/>
 
     </div>
@@ -520,9 +519,14 @@
   animation: flashBackground 0.5s ease-in-out 5; /* 背景閃爍持續 2.5 秒 */
 }
 
-.fade-out {
-  animation: fadeOut 1s ease-in-out forwards; /* 淡出效果 */
+.fadeIn {
+  animation: fadeIn 0.25s ease-in forwards; /* 淡出效果 */
 }
+
+.fadeOut {
+  animation: fadeOut 0.25s ease-out forwards; /* 淡出效果 */
+}
+
 </style>
 
 <script setup>
@@ -550,14 +554,20 @@ const shufflingCards = ref(['K', 'Q', 'A', 'K', 'Q', 'A', 'K', 'Q', 'A'])
 const selectedCardIndex = ref(-1);
 const props = defineProps(['soundEnabled'])
 const isOverlayVisible = ref(false);
-const isFlashing = ref(false); // 控
+const isFlashing = ref(false);
+const isInitialShuffle = ref(true);
 const shuffleCards = () => {
+  console.log("gameState.value")
+  console.log(gameState.value)
   if (props.soundEnabled) {
     cardFlipSound.play();
   }
   const shuffleDuration = 2000 // 3 seconds
   const intervalTime = 100 // Change cards every 100ms
   let elapsed = 0
+
+  shufflingCards.value = ['K', 'Q', 'A', 'K', 'Q', 'A', 'K', 'Q', 'A']
+  selectedCardIndex.value = -1
 
   const shuffleInterval = setInterval(() => {
     shufflingCards.value = shufflingCards.value
@@ -574,6 +584,7 @@ const shuffleCards = () => {
 const selectFinalCard = () => {
   selectedCardIndex.value = Math.floor(Math.random() * 3)
   selectedCard.value = shufflingCards.value[selectedCardIndex.value]
+  gameState.value = 'selecting'
 }
 const $q = useQuasar();
 
@@ -636,13 +647,15 @@ const winnerImg = ref(winnerPng);
 
 const startGame = () => {
   gameState.value = "selecting";
+  isInitialShuffle.value = true;
   shuffleCards();
 };
 
 const confirmCardSelection = () => {
   gameState.value = 'playing'
-  if (props.soundEnabled) {
+  if (props.soundEnabled && isInitialShuffle.value) {
     gunSpinSound.play();
+    isInitialShuffle.value = false;
   }
 }
 
@@ -723,7 +736,14 @@ const shoot = () => {
     });
     isOverlayVisible.value = false; // 隱藏 overlay
     checkGameOver();
-  }, 3000); // 根據心跳聲的播放時間設置延遲，這裡假設心跳聲播放完需要 3 秒
+    if (gameState.value !== 'gameOver') {
+      // 重新洗牌
+      setTimeout(() => {
+        gameState.value = 'selecting'
+        shuffleCards();
+      }, 2000);
+    }
+  }, 3000);
 
 };
 
@@ -754,6 +774,7 @@ const resetGame = () => {
   winner.value = null
   gameState.value = "initial";
   selectedCard.value = null;
+  isInitialShuffle.value = true;
   players.value.forEach((player) => {
     player.isAlive = true;
     player.shotCount = 0;
