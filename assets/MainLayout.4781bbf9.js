@@ -60,7 +60,7 @@ import {
     aa as el,
     ab as tl,
     ac as ll
-} from "./index.47c5d9f4.js";
+} from "./index.0a6aa4f1.js";
 
 var ol = $({
     name: "QToolbarTitle", props: {shrink: Boolean}, setup(e, {slots: l}) {
