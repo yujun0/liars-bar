@@ -18,39 +18,48 @@
             <div class="text-h5 text-center">Welcome to Liar's Bar</div>
           </q-card-section>
           <q-card-section class="q-pt-lg" style="max-height: 300px; overflow-y: auto;">
-            <p class="text-body1 text-center">
-              遊戲規則：
-            </p>
+            <p class="text-body1">遊戲規則：</p>
             <ul>
-              <li>牌組：20張牌（6張K、6張Q、6張A、2張Joker）</li>
-              <li>玩家人數：4位</li>
-              <li>每局隨機選擇 K/Q/A 作為目標牌型</li>
+              <li>
+                <strong>牌組：</strong>
+                <ul>
+                  <li>20 張牌（6 張 K、6 張 Q、6 張 A、2 張 Joker）</li>
+                  <li>Joker 可以當任意牌型</li>
+                </ul>
+              </li>
+              <li>
+                <strong>玩家人數：4 位</strong>
+              </li>
+              <li>
+                <strong>每局開始：</strong>
+                <ul>
+                  <li>隨機選擇 K/Q/A 作為目標牌型</li>
+                  <li>每位玩家手中有 5 張牌</li>
+                </ul>
+              </li>
             </ul>
-            <p class="text-body1 text-center">
-              遊戲流程：
-            </p>
-            <ol>
+            <p class="text-body1">遊戲流程：</p>
+            <ul>
               <li>玩家輪流出牌，聲明自己出的是目標牌型。</li>
               <li>下一位玩家可以選擇說 <b>liar</b> 或繼續出牌。</li>
-              <li>直到剩下1名玩家，遊戲結束</li>
-            </ol>
-            <p class="text-body1 text-center">
-              如果說 <b>liar</b>：
-            </p>
-            <ul>
-              <li>檢查前一位玩家的牌。</li>
-              <li>如果該玩家說謊，說謊玩家要進行左輪手槍遊戲。</li>
-              <li>如果該玩家沒說謊，說 <b>liar</b> 的玩家要進行左輪手槍遊戲。</li>
+              <li>如果說 <b>liar</b>，檢查前一位玩家的牌：</li>
+              <ul>
+                <li>如果該玩家說謊，說謊玩家要進行左輪手槍遊戲。</li>
+                <li>如果該玩家沒說謊，說 <b>liar</b> 的玩家要進行左輪手槍遊戲。</li>
+              </ul>
+              <li>開完槍後，將重新隨機選擇目標牌型。</li>
+              <li>直到剩下 1 名玩家，遊戲結束。</li>
             </ul>
-            <p class="text-body1 text-center">
-              左輪手槍規則：
-            </p>
+
+            <p class="text-body1">左輪手槍規則：</p>
+
             <ul>
-              <li>手槍有6個膛室，裡面有1枚子彈。</li>
-              <li>每位玩家開始時的命中率為0/6。如果這回合開槍沒射中，下一回合將變為1/6，命中率將會越來越高。</li>
+              <li>手槍有 6 個膛室，裡面有 1 枚子彈。</li>
+              <li>每位玩家開始時的命中率為 0/6。若這回合開槍未射中，下一回合命中率變為 1/6，命中率會逐漸增加。</li>
               <li>被射中的玩家退出當前回合。</li>
             </ul>
           </q-card-section>
+
           <q-card-actions vertical align="center" class="q-py-md">
             <q-btn
               color="secondary"
@@ -104,7 +113,8 @@
           class="my-card q-ma-md shadow-5"
         >
           <q-card-section class="bg-secondary text-white">
-            <div class="text-h5 text-center">選擇目標牌</div>
+            <div class="text-h5 text-center" v-if="!tableCard">選擇目標牌</div>
+            <div class="text-h5 text-center" v-else>{{ tableCard }}'S TABLE</div>
           </q-card-section>
           <q-card-section class="text-center q-pt-lg">
             <div class="cards-container">
@@ -146,9 +156,9 @@
           bordered
           class="my-card q-ma-md shadow-5"
         >
-          <q-card-section class="text-white" style="background-color: #392a77">
+          <q-card-section class="text-white" :style="tableCardColor">
             <div class="text-h5 text-center">
-              目標牌: {{ selectedCard }}
+              {{ selectedCard }}'S TABLE
             </div>
           </q-card-section>
           <q-card-section class="bg-grey-4">
@@ -197,11 +207,10 @@
               </transition-group>
             </div>
           </q-card-section>
-          <q-card-actions align="center" class="q-pa-md" style="background-color: #3d2676">
+          <q-card-actions align="center" class="q-pa-md" :style="tableCardColor">
             <q-btn
-              style="background-color: #dc2626; color: white"
+              style="background-color: #9c584b; color: #f2f2f1"
               icon="fa fa-gun"
-              label="開槍"
               @click="shoot"
               class="full-width q-py-sm"
               size="lg"
@@ -242,11 +251,12 @@
           </q-card-actions>
         </q-card>
       </transition>
-      <div v-if="isOverlayVisible" :class="['overlay', { 'overlay-flash': isFlashing }]" @animationend="handleAnimationEnd"/>
-
+      <div v-if="isOverlayVisible" :class="['overlay', { 'overlay-flash': isFlashing }]"
+           @animationend="handleAnimationEnd"/>
+      <div v-if="isShuffleOverlayVisible" class="overlay-shuffle"/>
     </div>
   </q-page>
-  <MainLayout @reset-game="resetGame" />
+  <MainLayout @reset-game="resetGame"/>
 </template>
 
 <style lang="scss">
@@ -300,10 +310,18 @@
 }
 
 @keyframes shuffle {
-  0%, 100% { transform: translateZ(0) rotateY(0deg); }
-  25% { transform: translateZ(100px) rotateY(180deg); }
-  50% { transform: translateZ(0) rotateY(360deg); }
-  75% { transform: translateZ(-100px) rotateY(540deg); }
+  0%, 100% {
+    transform: translateZ(0) rotateY(0deg);
+  }
+  25% {
+    transform: translateZ(100px) rotateY(180deg);
+  }
+  50% {
+    transform: translateZ(0) rotateY(360deg);
+  }
+  75% {
+    transform: translateZ(-100px) rotateY(540deg);
+  }
 }
 
 .shuffling {
@@ -481,6 +499,17 @@
   pointer-events: all; /* 允許點擊事件 */
   animation: breathing 1.1s ease-in-out infinite;
 }
+
+.overlay-shuffle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999; /* 確保在最上層 */
+}
+
+
 @keyframes breathing {
   0%, 100% {
     background-color: rgba(0, 0, 0, 0.7); /* 初始透明度 */
@@ -489,26 +518,49 @@
     background-color: rgba(0, 0, 0, 0.4); /* 呼吸到最亮 */
   }
 }
+
 @keyframes screenShake {
-  0% { transform: translate(0px, 0px); }
-  20% { transform: translate(-10px, 10px); }
-  40% { transform: translate(10px, -10px); }
-  60% { transform: translate(-10px, -10px); }
-  80% { transform: translate(10px, 10px); }
-  100% { transform: translate(0px, 0px); }
+  0% {
+    transform: translate(0px, 0px);
+  }
+  20% {
+    transform: translate(-10px, 10px);
+  }
+  40% {
+    transform: translate(10px, -10px);
+  }
+  60% {
+    transform: translate(-10px, -10px);
+  }
+  80% {
+    transform: translate(10px, 10px);
+  }
+  100% {
+    transform: translate(0px, 0px);
+  }
 }
 
 /* 定義背景閃爍效果 */
 @keyframes flashBackground {
-  0% { background-color: rgba(255, 0, 0, 0); }
-  50% { background-color: rgba(255, 0, 0, 1); }
-  100% { background-color: rgba(255, 0, 0, 0); }
+  0% {
+    background-color: rgba(255, 0, 0, 0);
+  }
+  50% {
+    background-color: rgba(255, 0, 0, 1);
+  }
+  100% {
+    background-color: rgba(255, 0, 0, 0);
+  }
 }
 
 /* 定義淡入淡出效果 */
 @keyframes fadeOut {
-  0% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }
 
 .screen-shake {
@@ -530,12 +582,12 @@
 </style>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useQuasar } from "quasar";
-import { Howl } from "howler";
-import A from "assets/card/A.png";
-import K from "assets/card/K.png";
-import Q from "assets/card/Q.png";
+import {ref, computed} from "vue";
+import {useQuasar} from "quasar";
+import {Howl} from "howler";
+import ACE from "assets/card/A.png";
+import KING from "assets/card/K.png";
+import QUEEN from "assets/card/Q.png";
 import avatar from "../assets/avatar.png";
 import winnerPng from "../assets/winner.png";
 import revolverSpin from "../assets/mp3/revolver-spin.mp3";
@@ -546,19 +598,27 @@ import heartBeat from "../assets/mp3/heartbeat-loop.mp3";
 import MainLayout from "layouts/MainLayout.vue";
 
 const cardImages = {
-  A,
-  K,
-  Q,
+  ACE,
+  KING,
+  QUEEN,
 };
-const shufflingCards = ref(['K', 'Q', 'A', 'K', 'Q', 'A', 'K', 'Q', 'A'])
+const cardColors = {
+  ACE: 'background-color: #eb9a58',
+  KING: 'background-color: #be483f',
+  QUEEN: 'background-color: #a20f8f',
+};
+const shufflingCards = ref(['KING', 'QUEEN', 'ACE', 'KING', 'QUEEN', 'ACE', 'KING', 'QUEEN', 'ACE'])
 const selectedCardIndex = ref(-1);
 const props = defineProps(['soundEnabled'])
 const isOverlayVisible = ref(false);
+const isShuffleOverlayVisible = ref(false);
 const isFlashing = ref(false);
 const isInitialShuffle = ref(true);
+let tableCard = ref("");
+let tableCardColor = ref("");
+
 const shuffleCards = () => {
-  console.log("gameState.value")
-  console.log(gameState.value)
+  tableCard.value = "";
   if (props.soundEnabled) {
     cardFlipSound.play();
   }
@@ -566,7 +626,7 @@ const shuffleCards = () => {
   const intervalTime = 100 // Change cards every 100ms
   let elapsed = 0
 
-  shufflingCards.value = ['K', 'Q', 'A', 'K', 'Q', 'A', 'K', 'Q', 'A']
+  shufflingCards.value = ['KING', 'QUEEN', 'ACE', 'KING', 'QUEEN', 'ACE', 'KING', 'QUEEN', 'ACE']
   selectedCardIndex.value = -1
 
   const shuffleInterval = setInterval(() => {
@@ -585,6 +645,8 @@ const selectFinalCard = () => {
   selectedCardIndex.value = Math.floor(Math.random() * 3)
   selectedCard.value = shufflingCards.value[selectedCardIndex.value]
   gameState.value = 'selecting'
+  tableCard.value = selectedCard.value;
+  tableCardColor.value = cardColors[tableCard.value] || 'background-color: #3d2676';
 }
 const $q = useQuasar();
 
@@ -628,11 +690,11 @@ const playerPositions = computed(() =>
 )
 
 
-const cardFlipSound = new Howl({ src: [cardShuffling] });
-const gunClickSound = new Howl({ src: [revolverCocking] });
-const gunSpinSound = new Howl({ src: [revolverSpin] });
-const gunShotSound = new Howl({ src: [revolverShot] });
-const heartBeatSound = new Howl({ src: [heartBeat] });
+const cardFlipSound = new Howl({src: [cardShuffling]});
+const gunClickSound = new Howl({src: [revolverCocking]});
+const gunSpinSound = new Howl({src: [revolverSpin]});
+const gunShotSound = new Howl({src: [revolverShot]});
+const heartBeatSound = new Howl({src: [heartBeat]});
 
 const winner = ref(null)
 const getCardImage = (card) => {
@@ -737,11 +799,15 @@ const shoot = () => {
     isOverlayVisible.value = false; // 隱藏 overlay
     checkGameOver();
     if (gameState.value !== 'gameOver') {
+      isShuffleOverlayVisible.value = true;
       // 重新洗牌
       setTimeout(() => {
+        selectedCard.value = null
         gameState.value = 'selecting'
         shuffleCards();
+        isShuffleOverlayVisible.value = false;
       }, 2000);
+
     }
   }, 3000);
 
@@ -765,7 +831,7 @@ const triggerScreenShake = () => {
 const checkGameOver = () => {
   const alivePlayers = players.value.filter(player => player.isAlive)
   if (alivePlayers.length === 1) {
-    winner.value = { ...alivePlayers[0], index: players.value.findIndex(p => p.id === alivePlayers[0].id) }
+    winner.value = {...alivePlayers[0], index: players.value.findIndex(p => p.id === alivePlayers[0].id)}
     gameState.value = 'gameOver'
   }
 }
@@ -775,6 +841,7 @@ const resetGame = () => {
   gameState.value = "initial";
   selectedCard.value = null;
   isInitialShuffle.value = true;
+  tableCard.value = "";
   players.value.forEach((player) => {
     player.isAlive = true;
     player.shotCount = 0;
