@@ -52,9 +52,7 @@ module.exports = configure(function (/* ctx */) {
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 
-      publicPath: process.env.NODE_ENV === 'production'
-        ? '/liars-bar/'
-        : '/',
+      publicPath: process.env.NODE_ENV === "production" ? "/liars-bar/" : "/",
       // analyze: true,
       // env: {},
       // rawDefine: {}
@@ -117,7 +115,7 @@ module.exports = configure(function (/* ctx */) {
       plugins: ["Notify"],
     },
 
-    animations: 'all', // --- includes all animations
+    animations: "all", // --- includes all animations
     // https://v2.quasar.dev/options/animations
     // animations: [],
 

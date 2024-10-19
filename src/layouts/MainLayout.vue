@@ -10,7 +10,9 @@
           aria-label="Menu"
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title class="text-h5 text-weight-bold"> Liar's Bar</q-toolbar-title>
+        <q-toolbar-title class="text-h5 text-weight-bold">
+          Liar's Bar</q-toolbar-title
+        >
         <q-btn
           flat
           round
@@ -26,7 +28,7 @@
         <q-item-label header>遊戲選單</q-item-label>
         <q-list class="cursor-pointer">
           <template v-for="(menuItem, index) in menuList" :key="index">
-            <q-item v-ripple @click="emitResetGame" clickable >
+            <q-item v-ripple @click="emitResetGame" clickable>
               <q-item-section avatar>
                 <q-icon :name="menuItem.icon" />
               </q-item-section>
@@ -35,20 +37,19 @@
               </q-item-section>
             </q-item>
           </template>
-
         </q-list>
       </q-scroll-area>
     </q-drawer>
 
     <q-page-container>
-      <router-view :sound-enabled="soundEnabled"/>
+      <router-view :sound-enabled="soundEnabled" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script setup>
-import {ref } from "vue";
-import {useQuasar} from "quasar";
+import { ref } from "vue";
+import { useQuasar } from "quasar";
 
 defineOptions({
   name: "MainLayout",
@@ -66,21 +67,21 @@ const toggleSound = () => {
   });
 };
 
-const emit = defineEmits(['reset-game']);
+const emit = defineEmits(["reset-game"]);
 
 const emitResetGame = () => {
-  console.log("emitResetGame")
-  emit('reset-game');
+  console.log("emitResetGame");
+  emit("reset-game");
   leftDrawerOpen.value = !leftDrawerOpen.value;
 };
 
 const menuList = [
   {
-    icon: 'rotate_right',
-    label: 'Restart Game',
-    separator: false
-  }
-]
+    icon: "rotate_right",
+    label: "Restart Game",
+    separator: false,
+  },
+];
 const leftDrawerOpen = ref(false);
 
 function toggleLeftDrawer() {

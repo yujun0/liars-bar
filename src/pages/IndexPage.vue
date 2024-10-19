@@ -1,5 +1,4 @@
 <template>
-
   <q-page class="flex flex-center bg-grey-2">
     <div class="full-width q-pa-md">
       <!-- Initial State -->
@@ -17,7 +16,10 @@
           <q-card-section class="bg-primary text-white">
             <div class="text-h5 text-center">Welcome to Liar's Bar</div>
           </q-card-section>
-          <q-card-section class="q-pt-lg" style="max-height: 300px; overflow-y: auto;">
+          <q-card-section
+            class="q-pt-lg"
+            style="max-height: 300px; overflow-y: auto"
+          >
             <p class="text-body1">遊戲規則：</p>
             <ul>
               <li>
@@ -34,7 +36,7 @@
                 <strong>每局開始：</strong>
                 <ul>
                   <li>隨機選擇 K/Q/A 作為目標牌型</li>
-                  <li>每位玩家手中有 5 張牌</li>
+                  <li>每位玩家手中有 5 張牌，每輪最多出 3 張牌</li>
                 </ul>
               </li>
             </ul>
@@ -45,7 +47,9 @@
               <li>如果說 <b>liar</b>，檢查前一位玩家的牌：</li>
               <ul>
                 <li>如果該玩家說謊，說謊玩家要進行左輪手槍遊戲。</li>
-                <li>如果該玩家沒說謊，說 <b>liar</b> 的玩家要進行左輪手槍遊戲。</li>
+                <li>
+                  如果該玩家沒說謊，說 <b>liar</b> 的玩家要進行左輪手槍遊戲。
+                </li>
               </ul>
               <li>開完槍後，將重新隨機選擇目標牌型。</li>
               <li>直到剩下 1 名玩家，遊戲結束。</li>
@@ -54,8 +58,8 @@
             <p class="text-body1">左輪手槍規則：</p>
 
             <ul>
-              <li>手槍有 6 個膛室，裡面有 1 枚子彈。</li>
-              <li>每位玩家開始時的命中率為 0/6。若這回合開槍未射中，下一回合命中率變為 1/6，命中率會逐漸增加。</li>
+              <li>一把手槍有 6 個膛室，一次放一顆子彈。</li>
+              <li>關上彈巢將其快速旋轉，在旋轉停止後，開始遊戲。</li>
               <li>被射中的玩家退出當前回合。</li>
             </ul>
           </q-card-section>
@@ -93,7 +97,11 @@
                 v-for="i in 20"
                 :key="i"
                 class="card-back"
-                :style="{ transform: `rotate(${Math.random() * 360}deg) translate(${Math.random() * 50 - 25}px, ${Math.random() * 50 - 25}px)` }"
+                :style="{
+                  transform: `rotate(${Math.random() * 360}deg) translate(${
+                    Math.random() * 50 - 25
+                  }px, ${Math.random() * 50 - 25}px)`,
+                }"
               ></div>
             </div>
           </q-card-section>
@@ -114,11 +122,17 @@
         >
           <q-card-section class="bg-secondary text-white">
             <div class="text-h5 text-center" v-if="!tableCard">選擇目標牌</div>
-            <div class="text-h5 text-center" v-else>{{ tableCard }}'S TABLE</div>
+            <div class="text-h5 text-center" v-else>
+              {{ tableCard }}'S TABLE
+            </div>
           </q-card-section>
           <q-card-section class="text-center q-pt-lg">
             <div class="cards-container">
-              <transition-group name="card-shuffle" tag="div" class="cards-deck">
+              <transition-group
+                name="card-shuffle"
+                tag="div"
+                class="cards-deck"
+              >
                 <div
                   v-for="(card, index) in shufflingCards"
                   :key="card + index"
@@ -157,49 +171,44 @@
           class="my-card q-ma-md shadow-5"
         >
           <q-card-section class="text-white" :style="tableCardColor">
-            <div class="text-h5 text-center">
-              {{ selectedCard }}'S TABLE
-            </div>
+            <div class="text-h5 text-center">{{ selectedCard }}'S TABLE</div>
           </q-card-section>
           <q-card-section class="bg-grey-4">
             <div class="player-layout">
               <transition-group name="player-move">
                 <div
                   v-for="(player, index) in players"
-                  :key="player.id"
+                  :key="player"
                   :class="['player-wrapper', playerPositions[index]]"
                 >
                   <q-btn
                     round
                     :size="$q.screen.lt.sm ? '16px' : '20px'"
                     :color="
-                  player.isAlive
-                    ? player.isSelected
-                      ? 'red-10'
-                      : 'dark'
-                    : 'grey'
-                "
+                      player.isAlive
+                        ? player.isSelected
+                          ? 'red-10'
+                          : 'dark'
+                        : 'grey'
+                    "
                     :disable="!player.isAlive"
                     @click="selectPlayer(index)"
                     class="shadow-5"
                   >
                     <q-avatar :size="$q.screen.lt.sm ? '30px' : '40px'">
-                      <img :src="getPlayerAvatar(index)"/>
+                      <img :src="getPlayerAvatar(index)" />
                     </q-avatar>
                   </q-btn>
                   <q-badge color="red" floating rounded>
                     {{ player.shotCount }}/6
                   </q-badge>
-                  <div
-                    class="player-name q-mt-sm"
-                    @click="selectPlayer(index)"
-                  >
+                  <div class="player-name q-mt-sm" @click="selectPlayer(index)">
                     <q-popup-edit
                       v-model="player.name"
                       auto-save
                       v-slot="scope"
                     >
-                      <q-input v-model="scope.value" dense autofocus/>
+                      <q-input v-model="scope.value" dense autofocus />
                     </q-popup-edit>
                     {{ player.name }}
                   </div>
@@ -207,7 +216,11 @@
               </transition-group>
             </div>
           </q-card-section>
-          <q-card-actions align="center" class="q-pa-md" :style="tableCardColor">
+          <q-card-actions
+            align="center"
+            class="q-pa-md"
+            :style="tableCardColor"
+          >
             <q-btn
               style="background-color: #9c584b; color: #f2f2f1"
               icon="fa fa-gun"
@@ -236,7 +249,7 @@
           </q-card-section>
           <q-card-section class="text-center q-pt-lg">
             <q-avatar size="100px" class="q-mb-md">
-              <img :src="winnerImg"/>
+              <img :src="winnerImg" />
             </q-avatar>
             <div class="text-h5 q-mb-md">獲勝者: {{ winner.name }}</div>
           </q-card-section>
@@ -251,12 +264,15 @@
           </q-card-actions>
         </q-card>
       </transition>
-      <div v-if="isOverlayVisible" :class="['overlay', { 'overlay-flash': isFlashing }]"
-           @animationend="handleAnimationEnd"/>
-      <div v-if="isShuffleOverlayVisible" class="overlay-shuffle"/>
+      <div
+        v-if="isOverlayVisible"
+        :class="['overlay', { 'overlay-flash': isFlashing }]"
+        @animationend="handleAnimationEnd"
+      />
+      <div v-if="isShuffleOverlayVisible" class="overlay-shuffle" />
     </div>
   </q-page>
-  <MainLayout @reset-game="resetGame"/>
+  <MainLayout @reset-game="resetGame" />
 </template>
 
 <style lang="scss">
@@ -310,7 +326,8 @@
 }
 
 @keyframes shuffle {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateZ(0) rotateY(0deg);
   }
   25% {
@@ -341,11 +358,11 @@
   left: 50%;
   width: 70px;
   height: 100px;
-  background-color: #1976D2;
+  background-color: #1976d2;
   transition: all 0.5s ease;
 
   &::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 5px;
     left: 5px;
@@ -462,30 +479,33 @@
   align-items: center;
   transition: all 0.3s ease;
 
-  &.top, &.top-center {
+  &.top,
+  &.top-center {
     top: 0;
     left: 50%;
     transform: translateX(-50%);
   }
 
-  &.left, &.middle-left {
+  &.left,
+  &.middle-left {
     left: 0;
     top: 50%;
     transform: translateY(-50%);
   }
 
-  &.right, &.middle-right {
+  &.right,
+  &.middle-right {
     right: 0;
     top: 50%;
     transform: translateY(-50%);
   }
 
-  &.bottom, &.bottom-center {
+  &.bottom,
+  &.bottom-center {
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
   }
-
 }
 
 .overlay {
@@ -509,9 +529,9 @@
   z-index: 999; /* 確保在最上層 */
 }
 
-
 @keyframes breathing {
-  0%, 100% {
+  0%,
+  100% {
     background-color: rgba(0, 0, 0, 0.7); /* 初始透明度 */
   }
   50% {
@@ -578,13 +598,12 @@
 .fadeOut {
   animation: fadeOut 0.25s ease-out forwards; /* 淡出效果 */
 }
-
 </style>
 
 <script setup>
-import {ref, computed} from "vue";
-import {useQuasar} from "quasar";
-import {Howl} from "howler";
+import { ref, computed } from "vue";
+import { useQuasar } from "quasar";
+import { Howl } from "howler";
 import ACE from "assets/card/A.png";
 import KING from "assets/card/K.png";
 import QUEEN from "assets/card/Q.png";
@@ -603,13 +622,23 @@ const cardImages = {
   QUEEN,
 };
 const cardColors = {
-  ACE: 'background-color: #eb9a58',
-  KING: 'background-color: #be483f',
-  QUEEN: 'background-color: #a20f8f',
+  ACE: "background-color: #eb9a58",
+  KING: "background-color: #be483f",
+  QUEEN: "background-color: #a20f8f",
 };
-const shufflingCards = ref(['KING', 'QUEEN', 'ACE', 'KING', 'QUEEN', 'ACE', 'KING', 'QUEEN', 'ACE'])
+const shufflingCards = ref([
+  "KING",
+  "QUEEN",
+  "ACE",
+  "KING",
+  "QUEEN",
+  "ACE",
+  "KING",
+  "QUEEN",
+  "ACE",
+]);
 const selectedCardIndex = ref(-1);
-const props = defineProps(['soundEnabled'])
+const props = defineProps(["soundEnabled"]);
 const isOverlayVisible = ref(false);
 const isShuffleOverlayVisible = ref(false);
 const isFlashing = ref(false);
@@ -622,32 +651,42 @@ const shuffleCards = () => {
   if (props.soundEnabled) {
     cardFlipSound.play();
   }
-  const shuffleDuration = 2000 // 3 seconds
-  const intervalTime = 100 // Change cards every 100ms
-  let elapsed = 0
+  const shuffleDuration = 2000; // 3 seconds
+  const intervalTime = 100; // Change cards every 100ms
+  let elapsed = 0;
 
-  shufflingCards.value = ['KING', 'QUEEN', 'ACE', 'KING', 'QUEEN', 'ACE', 'KING', 'QUEEN', 'ACE']
-  selectedCardIndex.value = -1
+  shufflingCards.value = [
+    "KING",
+    "QUEEN",
+    "ACE",
+    "KING",
+    "QUEEN",
+    "ACE",
+    "KING",
+    "QUEEN",
+    "ACE",
+  ];
+  selectedCardIndex.value = -1;
 
   const shuffleInterval = setInterval(() => {
-    shufflingCards.value = shufflingCards.value
-      .sort(() => Math.random() - 0.5)
-    elapsed += intervalTime
+    shufflingCards.value = shufflingCards.value.sort(() => Math.random() - 0.5);
+    elapsed += intervalTime;
 
     if (elapsed >= shuffleDuration) {
-      clearInterval(shuffleInterval)
-      selectFinalCard()
+      clearInterval(shuffleInterval);
+      selectFinalCard();
     }
-  }, intervalTime)
-}
+  }, intervalTime);
+};
 
 const selectFinalCard = () => {
-  selectedCardIndex.value = Math.floor(Math.random() * 3)
-  selectedCard.value = shufflingCards.value[selectedCardIndex.value]
-  gameState.value = 'selecting'
+  selectedCardIndex.value = Math.floor(Math.random() * 3);
+  selectedCard.value = shufflingCards.value[selectedCardIndex.value];
+  gameState.value = "selecting";
   tableCard.value = selectedCard.value;
-  tableCardColor.value = cardColors[tableCard.value] || 'background-color: #3d2676';
-}
+  tableCardColor.value =
+    cardColors[tableCard.value] || "background-color: #3d2676";
+};
 const $q = useQuasar();
 
 const gameState = ref("initial");
@@ -685,18 +724,17 @@ const players = ref([
 
 const playerPositions = computed(() =>
   $q.screen.lt.sm
-    ? ['top-center', 'middle-left', 'middle-right', 'bottom-center']
-    : ['top', 'left', 'right', 'bottom']
-)
+    ? ["top-center", "middle-left", "middle-right", "bottom-center"]
+    : ["top", "left", "right", "bottom"]
+);
 
+const cardFlipSound = new Howl({ src: [cardShuffling] });
+const gunClickSound = new Howl({ src: [revolverCocking] });
+const gunSpinSound = new Howl({ src: [revolverSpin] });
+const gunShotSound = new Howl({ src: [revolverShot] });
+const heartBeatSound = new Howl({ src: [heartBeat] });
 
-const cardFlipSound = new Howl({src: [cardShuffling]});
-const gunClickSound = new Howl({src: [revolverCocking]});
-const gunSpinSound = new Howl({src: [revolverSpin]});
-const gunShotSound = new Howl({src: [revolverShot]});
-const heartBeatSound = new Howl({src: [heartBeat]});
-
-const winner = ref(null)
+const winner = ref(null);
 const getCardImage = (card) => {
   return cardImages[card] || null; // 請確保有對應的圖片檔案
 };
@@ -714,12 +752,12 @@ const startGame = () => {
 };
 
 const confirmCardSelection = () => {
-  gameState.value = 'playing'
+  gameState.value = "playing";
   if (props.soundEnabled && isInitialShuffle.value) {
     gunSpinSound.play();
     isInitialShuffle.value = false;
   }
-}
+};
 
 const selectPlayer = (index) => {
   players.value.forEach((player, i) => {
@@ -753,7 +791,6 @@ const handleAnimationEnd = (event) => {
 };
 const shoot = () => {
   const selectedPlayer = players.value.find((player) => player.isSelected);
-
   if (!selectedPlayer) {
     $q.notify(
       {
@@ -767,7 +804,7 @@ const shoot = () => {
     return;
   }
   isOverlayVisible.value = true;
-  const isShot = ++selectedPlayer.shotCount === selectedPlayer.bulletPosition;
+  const isShot = selectedPlayer.shotCount + 1 === selectedPlayer.bulletPosition;
 
   // 播放心跳聲音
   if (props.soundEnabled) {
@@ -778,7 +815,9 @@ const shoot = () => {
     ? `${selectedPlayer.name} 被淘汰了！`
     : `${selectedPlayer.name} 倖存了！`;
   const notifyColor = isShot ? "negative" : "info";
-  const notifyIcon = isShot ? "sentiment_very_dissatisfied" : "sentiment_satisfied";
+  const notifyIcon = isShot
+    ? "sentiment_very_dissatisfied"
+    : "sentiment_satisfied";
 
   // 播放音效，然後顯示通知
   setTimeout(() => {
@@ -798,19 +837,18 @@ const shoot = () => {
     });
     isOverlayVisible.value = false; // 隱藏 overlay
     checkGameOver();
-    if (gameState.value !== 'gameOver') {
+    if (gameState.value !== "gameOver") {
       isShuffleOverlayVisible.value = true;
       // 重新洗牌
       setTimeout(() => {
-        selectedCard.value = null
-        gameState.value = 'selecting'
+        selectedCard.value = null;
+        gameState.value = "selecting";
         shuffleCards();
         isShuffleOverlayVisible.value = false;
       }, 2000);
-
+      selectedPlayer.shotCount++;
     }
   }, 3000);
-
 };
 
 const triggerScreenShake = () => {
@@ -829,15 +867,18 @@ const triggerScreenShake = () => {
 };
 
 const checkGameOver = () => {
-  const alivePlayers = players.value.filter(player => player.isAlive)
+  const alivePlayers = players.value.filter((player) => player.isAlive);
   if (alivePlayers.length === 1) {
-    winner.value = {...alivePlayers[0], index: players.value.findIndex(p => p.id === alivePlayers[0].id)}
-    gameState.value = 'gameOver'
+    winner.value = {
+      ...alivePlayers[0],
+      index: players.value.findIndex((p) => p.id === alivePlayers[0].id),
+    };
+    gameState.value = "gameOver";
   }
-}
+};
 
 const resetGame = () => {
-  winner.value = null
+  winner.value = null;
   gameState.value = "initial";
   selectedCard.value = null;
   isInitialShuffle.value = true;
