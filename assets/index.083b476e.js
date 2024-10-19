@@ -5176,14 +5176,14 @@ function od(e, t) {
 
 const ld = [{
     path: "/",
-    component: () => Nn(() => import("./MainLayout.4781bbf9.js").then(function (e) {
+    component: () => Nn(() => import("./MainLayout.264b8abc.js").then(function (e) {
         return e.M
     }), []),
     children: [{
         path: "",
-        component: () => Nn(() => import("./IndexPage.ff4393b3.js"), ["assets/IndexPage.ff4393b3.js", "assets/IndexPage.579a8f87.css", "assets/MainLayout.4781bbf9.js"])
+        component: () => Nn(() => import("./IndexPage.d9e13430.js"), ["assets/IndexPage.d9e13430.js", "assets/IndexPage.579a8f87.css", "assets/MainLayout.264b8abc.js"])
     }]
-}, {path: "/:catchAll(.*)*", component: () => Nn(() => import("./ErrorNotFound.6dc42d6f.js"), [])}];
+}, {path: "/:catchAll(.*)*", component: () => Nn(() => import("./ErrorNotFound.b4ab81bf.js"), [])}];
 var Ir = function () {
     return id({scrollBehavior: () => ({left: 0, top: 0}), routes: ld, history: $f("/liars-bar/")})
 };
@@ -6002,7 +6002,7 @@ ad(wl, Yd).then(e => {
         }
         return s.value.default
     })] : ["all", r => r.map(s => s.default)];
-    return Promise[t]([Nn(() => import("./i18n.ac33124a.js"), [])]).then(r => {
+    return Promise[t]([Nn(() => import("./i18n.c74fc860.js"), [])]).then(r => {
         const s = n(r).filter(i => typeof i == "function");
         Zd(e, s)
     })

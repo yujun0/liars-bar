@@ -61,7 +61,7 @@ import {
     av as $e,
     aw as rt,
     ax as De
-} from "./index.0a6aa4f1.js";
+} from "./index.083b476e.js";
 import {
     u as Ye,
     a as Je,
@@ -75,7 +75,7 @@ import {
     h as un,
     i as sn,
     _ as dn
-} from "./MainLayout.4781bbf9.js";
+} from "./MainLayout.264b8abc.js";
 
 var ae = le({
     name: "QCardSection",
@@ -2462,7 +2462,7 @@ const ha = {class: "full-width q-pa-md"}, ga = {class: "shuffle-container"},
                         return
                     }
                     d.value = !0;
-                    const p = ++T.shotCount === T.bulletPosition;
+                    const p = T.shotCount + 1 === T.bulletPosition;
                     f.soundEnabled && K(3, 1e3);
                     const M = p ? `${T.name} \u88AB\u6DD8\u6C70\u4E86\uFF01` : `${T.name} \u5016\u5B58\u4E86\uFF01`,
                         j = p ? "negative" : "info", Z = p ? "sentiment_very_dissatisfied" : "sentiment_satisfied";
@@ -2474,7 +2474,7 @@ const ha = {class: "full-width q-pa-md"}, ga = {class: "shuffle-container"},
                             icon: Z
                         }), d.value = !1, V(), c.value !== "gameOver" && (g.value = !0, setTimeout(() => {
                             _.value = null, c.value = "selecting", n(), g.value = !1
-                        }, 2e3))
+                        }, 2e3), T.shotCount++)
                     }, 3e3)
                 }, x = () => {
                     const T = document.querySelector("body");
@@ -2510,7 +2510,7 @@ const ha = {class: "full-width q-pa-md"}, ga = {class: "shuffle-container"},
                             default: W(() => p[0] || (p[0] = [I("div", {class: "text-h5 text-center"}, "Welcome to Liar's Bar", -1)])),
                             _: 1
                         }), N(ae, {class: "q-pt-lg", style: {"max-height": "300px", "overflow-y": "auto"}}, {
-                            default: W(() => p[1] || (p[1] = [I("p", {class: "text-body1"}, "\u904A\u6232\u898F\u5247\uFF1A", -1), I("ul", null, [I("li", null, [I("strong", null, "\u724C\u7D44\uFF1A"), I("ul", null, [I("li", null, "20 \u5F35\u724C\uFF086 \u5F35 K\u30016 \u5F35 Q\u30016 \u5F35 A\u30012 \u5F35 Joker\uFF09"), I("li", null, "Joker \u53EF\u4EE5\u7576\u4EFB\u610F\u724C\u578B")])]), I("li", null, [I("strong", null, "\u73A9\u5BB6\u4EBA\u6578\uFF1A4 \u4F4D")]), I("li", null, [I("strong", null, "\u6BCF\u5C40\u958B\u59CB\uFF1A"), I("ul", null, [I("li", null, "\u96A8\u6A5F\u9078\u64C7 K/Q/A \u4F5C\u70BA\u76EE\u6A19\u724C\u578B"), I("li", null, "\u6BCF\u4F4D\u73A9\u5BB6\u624B\u4E2D\u6709 5 \u5F35\u724C")])])], -1), I("p", {class: "text-body1"}, "\u904A\u6232\u6D41\u7A0B\uFF1A", -1), I("ul", null, [I("li", null, "\u73A9\u5BB6\u8F2A\u6D41\u51FA\u724C\uFF0C\u8072\u660E\u81EA\u5DF1\u51FA\u7684\u662F\u76EE\u6A19\u724C\u578B\u3002"), I("li", null, [ie("\u4E0B\u4E00\u4F4D\u73A9\u5BB6\u53EF\u4EE5\u9078\u64C7\u8AAA "), I("b", null, "liar"), ie(" \u6216\u7E7C\u7E8C\u51FA\u724C\u3002")]), I("li", null, [ie("\u5982\u679C\u8AAA "), I("b", null, "liar"), ie("\uFF0C\u6AA2\u67E5\u524D\u4E00\u4F4D\u73A9\u5BB6\u7684\u724C\uFF1A")]), I("ul", null, [I("li", null, "\u5982\u679C\u8A72\u73A9\u5BB6\u8AAA\u8B0A\uFF0C\u8AAA\u8B0A\u73A9\u5BB6\u8981\u9032\u884C\u5DE6\u8F2A\u624B\u69CD\u904A\u6232\u3002"), I("li", null, [ie("\u5982\u679C\u8A72\u73A9\u5BB6\u6C92\u8AAA\u8B0A\uFF0C\u8AAA "), I("b", null, "liar"), ie(" \u7684\u73A9\u5BB6\u8981\u9032\u884C\u5DE6\u8F2A\u624B\u69CD\u904A\u6232\u3002")])]), I("li", null, "\u958B\u5B8C\u69CD\u5F8C\uFF0C\u5C07\u91CD\u65B0\u96A8\u6A5F\u9078\u64C7\u76EE\u6A19\u724C\u578B\u3002"), I("li", null, "\u76F4\u5230\u5269\u4E0B 1 \u540D\u73A9\u5BB6\uFF0C\u904A\u6232\u7D50\u675F\u3002")], -1), I("p", {class: "text-body1"}, "\u5DE6\u8F2A\u624B\u69CD\u898F\u5247\uFF1A", -1), I("ul", null, [I("li", null, "\u624B\u69CD\u6709 6 \u500B\u819B\u5BA4\uFF0C\u88E1\u9762\u6709 1 \u679A\u5B50\u5F48\u3002"), I("li", null, "\u6BCF\u4F4D\u73A9\u5BB6\u958B\u59CB\u6642\u7684\u547D\u4E2D\u7387\u70BA 0/6\u3002\u82E5\u9019\u56DE\u5408\u958B\u69CD\u672A\u5C04\u4E2D\uFF0C\u4E0B\u4E00\u56DE\u5408\u547D\u4E2D\u7387\u8B8A\u70BA 1/6\uFF0C\u547D\u4E2D\u7387\u6703\u9010\u6F38\u589E\u52A0\u3002"), I("li", null, "\u88AB\u5C04\u4E2D\u7684\u73A9\u5BB6\u9000\u51FA\u7576\u524D\u56DE\u5408\u3002")], -1)])),
+                            default: W(() => p[1] || (p[1] = [I("p", {class: "text-body1"}, "\u904A\u6232\u898F\u5247\uFF1A", -1), I("ul", null, [I("li", null, [I("strong", null, "\u724C\u7D44\uFF1A"), I("ul", null, [I("li", null, "20 \u5F35\u724C\uFF086 \u5F35 K\u30016 \u5F35 Q\u30016 \u5F35 A\u30012 \u5F35 Joker\uFF09"), I("li", null, "Joker \u53EF\u4EE5\u7576\u4EFB\u610F\u724C\u578B")])]), I("li", null, [I("strong", null, "\u73A9\u5BB6\u4EBA\u6578\uFF1A4 \u4F4D")]), I("li", null, [I("strong", null, "\u6BCF\u5C40\u958B\u59CB\uFF1A"), I("ul", null, [I("li", null, "\u96A8\u6A5F\u9078\u64C7 K/Q/A \u4F5C\u70BA\u76EE\u6A19\u724C\u578B"), I("li", null, "\u6BCF\u4F4D\u73A9\u5BB6\u624B\u4E2D\u6709 5 \u5F35\u724C\uFF0C\u6BCF\u8F2A\u6700\u591A\u51FA 3 \u5F35\u724C")])])], -1), I("p", {class: "text-body1"}, "\u904A\u6232\u6D41\u7A0B\uFF1A", -1), I("ul", null, [I("li", null, "\u73A9\u5BB6\u8F2A\u6D41\u51FA\u724C\uFF0C\u8072\u660E\u81EA\u5DF1\u51FA\u7684\u662F\u76EE\u6A19\u724C\u578B\u3002"), I("li", null, [ie("\u4E0B\u4E00\u4F4D\u73A9\u5BB6\u53EF\u4EE5\u9078\u64C7\u8AAA "), I("b", null, "liar"), ie(" \u6216\u7E7C\u7E8C\u51FA\u724C\u3002")]), I("li", null, [ie("\u5982\u679C\u8AAA "), I("b", null, "liar"), ie("\uFF0C\u6AA2\u67E5\u524D\u4E00\u4F4D\u73A9\u5BB6\u7684\u724C\uFF1A")]), I("ul", null, [I("li", null, "\u5982\u679C\u8A72\u73A9\u5BB6\u8AAA\u8B0A\uFF0C\u8AAA\u8B0A\u73A9\u5BB6\u8981\u9032\u884C\u5DE6\u8F2A\u624B\u69CD\u904A\u6232\u3002"), I("li", null, [ie(" \u5982\u679C\u8A72\u73A9\u5BB6\u6C92\u8AAA\u8B0A\uFF0C\u8AAA "), I("b", null, "liar"), ie(" \u7684\u73A9\u5BB6\u8981\u9032\u884C\u5DE6\u8F2A\u624B\u69CD\u904A\u6232\u3002 ")])]), I("li", null, "\u958B\u5B8C\u69CD\u5F8C\uFF0C\u5C07\u91CD\u65B0\u96A8\u6A5F\u9078\u64C7\u76EE\u6A19\u724C\u578B\u3002"), I("li", null, "\u76F4\u5230\u5269\u4E0B 1 \u540D\u73A9\u5BB6\uFF0C\u904A\u6232\u7D50\u675F\u3002")], -1), I("p", {class: "text-body1"}, "\u5DE6\u8F2A\u624B\u69CD\u898F\u5247\uFF1A", -1), I("ul", null, [I("li", null, "\u4E00\u628A\u624B\u69CD\u6709 6 \u500B\u819B\u5BA4\uFF0C\u4E00\u6B21\u653E\u4E00\u9846\u5B50\u5F48\u3002"), I("li", null, "\u95DC\u4E0A\u5F48\u5DE2\u5C07\u5176\u5FEB\u901F\u65CB\u8F49\uFF0C\u5728\u65CB\u8F49\u505C\u6B62\u5F8C\uFF0C\u958B\u59CB\u904A\u6232\u3002"), I("li", null, "\u88AB\u5C04\u4E2D\u7684\u73A9\u5BB6\u9000\u51FA\u7576\u524D\u56DE\u5408\u3002")], -1)])),
                             _: 1
                         }), N(Ge, {
                             vertical: "",
@@ -2560,7 +2560,7 @@ const ha = {class: "full-width q-pa-md"}, ga = {class: "shuffle-container"},
                         class: "my-card q-ma-md shadow-5"
                     }, {
                         default: W(() => [N(ae, {class: "bg-secondary text-white"}, {
-                            default: W(() => [ye(w) ? (J(), ne("div", ba, Ae(ye(w)) + "'S TABLE", 1)) : (J(), ne("div", ya, "\u9078\u64C7\u76EE\u6A19\u724C"))]),
+                            default: W(() => [ye(w) ? (J(), ne("div", ba, Ae(ye(w)) + "'S TABLE ", 1)) : (J(), ne("div", ya, "\u9078\u64C7\u76EE\u6A19\u724C"))]),
                             _: 1
                         }), N(ae, {class: "text-center q-pt-lg"}, {
                             default: W(() => [I("div", wa, [N(ot, {
@@ -2592,12 +2592,12 @@ const ha = {class: "full-width q-pa-md"}, ga = {class: "shuffle-container"},
                             class: "text-white",
                             style: $e(ye(e))
                         }, {
-                            default: W(() => [I("div", xa, Ae(_.value) + "'S TABLE ", 1)]),
+                            default: W(() => [I("div", xa, Ae(_.value) + "'S TABLE", 1)]),
                             _: 1
                         }, 8, ["style"]), N(ae, {class: "bg-grey-4"}, {
                             default: W(() => [I("div", ka, [N(ot, {name: "player-move"}, {
                                 default: W(() => [(J(!0), ne(Ee, null, Le(s.value, (M, j) => (J(), ne("div", {
-                                    key: M.id,
+                                    key: M,
                                     class: De(["player-wrapper", y.value[j]])
                                 }, [N(fe, {
                                     round: "",

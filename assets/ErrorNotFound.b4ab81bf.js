@@ -1,4 +1,4 @@
-import {a3 as o, a8 as s, ar as t, f as a, a6 as r} from "./index.0a6aa4f1.js";
+import {a3 as o, a8 as s, ar as t, f as a, a6 as r} from "./index.083b476e.js";
 
 const l = {class: "fullscreen bg-blue text-white text-center q-pa-md flex flex-center"},
     d = Object.assign({name: "ErrorNotFound"}, {
