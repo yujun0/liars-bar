@@ -75,39 +75,6 @@
           </q-card-actions>
         </q-card>
       </transition>
-
-      <!-- Shuffling State -->
-      <transition
-        appear
-        enter-active-class="animated fadeIn"
-        leave-active-class="animated fadeOut"
-      >
-        <q-card
-          v-if="gameState === 'shuffling'"
-          flat
-          bordered
-          class="my-card q-ma-md shadow-5"
-        >
-          <q-card-section class="bg-secondary text-white">
-            <div class="text-h5 text-center">洗牌中</div>
-          </q-card-section>
-          <q-card-section class="text-center q-pt-lg">
-            <div class="shuffle-container">
-              <div
-                v-for="i in 20"
-                :key="i"
-                class="card-back"
-                :style="{
-                  transform: `rotate(${Math.random() * 360}deg) translate(${
-                    Math.random() * 50 - 25
-                  }px, ${Math.random() * 50 - 25}px)`,
-                }"
-              ></div>
-            </div>
-          </q-card-section>
-        </q-card>
-      </transition>
-
       <!-- Card Selection State -->
       <transition
         appear
