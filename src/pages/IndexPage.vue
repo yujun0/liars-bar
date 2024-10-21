@@ -846,7 +846,9 @@ const shoot = () => {
         shuffleCards();
         isShuffleOverlayVisible.value = false;
       }, 2000);
-      selectedPlayer.shotCount++;
+      if (!isShot) {
+        selectedPlayer.shotCount++;
+      }
     }
   }, 3000);
 };
